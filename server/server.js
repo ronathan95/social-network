@@ -54,10 +54,37 @@ app.post("/registration", (req, res) => {
                 })
                 .catch((err) => {
                     console.error("error in db.addNewUser: ", err);
+                    res.json({ success: false });
                 });
         })
         .catch((err) => {
             console.error("error in hash: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post("/login", (req, res) => {
+    const { email, pw: typedPw } = req.body;
+    db.getHashedPwAndUserId(email)
+        .then(({ rows }) => {
+            const { password: hashedPw, id: userId } = rows[0];
+            compare(typedPw, hashedPw)
+                .then((result) => {
+                    if (result) {
+                        req.session.userId = userId;
+                        res.json({ success: true });
+                    } else {
+                        res.json({ success: false });
+                    }
+                })
+                .catch((err) => {
+                    console.error("error in compare: ", err);
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            "error in db.getHashedPwandUserId", err;
+            res.json({ success: false });
         });
 });
 
