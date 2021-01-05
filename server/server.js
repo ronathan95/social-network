@@ -5,6 +5,7 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const db = require("../db");
 const { hash, compare } = require("../bc");
+const csurf = require("csurf");
 
 ///////////////////////////////////////////////
 
@@ -22,6 +23,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
@@ -42,6 +50,7 @@ app.post("/registration", (req, res) => {
             db.addNewUser(first, last, email, hashedPw)
                 .then(({ rows }) => {
                     req.session.userId = rows[0].id;
+                    res.json({ success: true });
                 })
                 .catch((err) => {
                     console.error("error in db.addNewUser: ", err);
