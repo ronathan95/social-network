@@ -6,6 +6,8 @@ const cookieSession = require("cookie-session");
 const db = require("../db");
 const { hash, compare } = require("../bc");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+const { sendEmail } = require("./ses");
 
 ///////////////////////////////////////////////
 
@@ -88,7 +90,57 @@ app.post("/login", (req, res) => {
         });
 });
 
-app.get("*", function (req, res) {
+app.post("/password/reset/start", (req, res) => {
+    const { email } = req.body;
+    db.doesEmailExists(email)
+        .then(({ rows }) => {
+            if (rows.length <= 0) {
+                res.json({ success: false });
+            } else {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                db.addNewResetCode(email, secretCode)
+                    .then(() => {
+                        sendEmail(
+                            email,
+                            `This is your verfication code: ${secretCode}`,
+                            "Social Network || Reset Password"
+                        )
+                            .then(() => {
+                                res.json({ success: true });
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "error in sendEmail for reset password: ",
+                                    err
+                                );
+                                res.json({ success: false });
+                            });
+                    })
+                    .catch((err) => {
+                        console.error("error in db.addNewResetCode: ", err);
+                        res.json({ success: false });
+                    });
+            }
+        })
+        .catch((err) => {
+            console.error("error in db.doesEmailExists: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    const { email, code, pw: typedPw } = req.body;
+    db.didCodeExpire(email)
+        .then(() => {})
+        .catch((err) => {
+            console.error("error in db.didCodeExpire: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
