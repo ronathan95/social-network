@@ -23,8 +23,12 @@ export default class Registration extends Component {
     handleClick() {
         axios
             .post("/registration", this.state)
-            .then(() => {
-                location.replace("/");
+            .then((res) => {
+                if (!res.data.success) {
+                    this.setState({ error: true });
+                } else {
+                    location.replace("/");
+                }
             })
             .catch((err) => {
                 console.error("erron on axios.post(/registration): ", err);
