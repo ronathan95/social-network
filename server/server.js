@@ -17,7 +17,7 @@ const { s3Url } = require("./config.json");
 
 const diskStorage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, "uploads");
+        callback(null, __dirname + "/uploads");
     },
     filename: (req, file, callback) => {
         uidSafe(24)

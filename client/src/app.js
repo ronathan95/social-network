@@ -26,8 +26,8 @@ export default class App extends Component {
                     first: res.data.first,
                     last: res.data.last,
                     email: res.data.email,
-                    createdAt: res.data.created_at,
-                    profilePic: res.data.profile_pic,
+                    createdAt: res.data.createdAt,
+                    profilePic: res.data.profilePic,
                 });
             })
             .catch((err) => {
