@@ -8,8 +8,34 @@ const { hash, compare } = require("../bc");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
 
 ///////////////////////////////////////////////
+
+const diskStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "uploads");
+    },
+    filename: (req, file, callback) => {
+        uidSafe(24)
+            .then((uid) => {
+                callback(null, `${uid}${path.extname(file.originalname)}`);
+            })
+            .catch((err) => {
+                callback(err);
+            });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 app.use(compression());
 
@@ -139,6 +165,45 @@ app.post("/password/reset/verify", (req, res) => {
             res.json({ success: false });
         });
 });
+
+app.get("/profile-info", (req, res) => {
+    db.getUserInfo(req.session.userId)
+        .then(({ rows }) => {
+            const { first, last, email, created_at, profile_pic } = rows[0];
+            res.json({
+                id: req.session.userId,
+                first: first,
+                last: last,
+                email: email,
+                createdAt: created_at,
+                profilePic: profile_pic,
+            });
+        })
+        .catch((err) => {
+            console.error("error in db.getUserInfo: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post(
+    "/update-profile-pic",
+    uploader.single("image"),
+    s3.upload,
+    (req, res) => {
+        if (req.file) {
+            const url = s3Url + req.file.filename;
+            db.updateProfilePic(req.session.userId, url)
+                .then(() => {
+                    res.json({ profilePic: url });
+                })
+                .catch((err) => {
+                    console.error("error in db.updateProfilePic: ", err);
+                });
+        } else {
+            res.json({ success: false });
+        }
+    }
+);
 
 app.get("*", (req, res) => {
     if (!req.session.userId) {

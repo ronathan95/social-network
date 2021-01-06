@@ -35,3 +35,16 @@ module.exports.didCodeExpire = (email) => {
     const params = [email];
     return db.query(q, params);
 };
+
+module.exports.getUserInfo = (userId) => {
+    const q =
+        "SELECT first, last, email, created_at, profile_pic FROM users WHERE id = ($1)";
+    const params = [userId];
+    return db.query(q, params);
+};
+
+module.exports.updateProfilePic = (userId, url) => {
+    const q = "UPDATE users SET profile_pic = ($2) WHERE id = ($1)";
+    const params = [userId, url];
+    return db.query(q, params);
+};
