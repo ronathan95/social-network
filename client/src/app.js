@@ -58,7 +58,9 @@ export default class App extends Component {
                 />
                 {this.state.uploaderIsVisible && (
                     <Uploader
-                        updateProfilePic={() => this.updateProfilePic()}
+                        updateProfilePic={(newProfilePic) =>
+                            this.updateProfilePic(newProfilePic)
+                        }
                     />
                 )}
             </div>
