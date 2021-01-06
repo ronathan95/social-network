@@ -157,9 +157,38 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    const { email, code, pw: typedPw } = req.body;
+    const { email, code: typedCode, pw: typedPw } = req.body;
     db.didCodeExpire(email)
-        .then(() => {})
+        .then(({ rows }) => {
+            const codes = rows[0];
+            console.log("codes: ", codes);
+            let match = false;
+            for (let i = 0; i < codes.length; i++) {
+                console.log("codes[i].code: ", codes[i].code);
+                if (typedCode === codes[i].code) {
+                    match = true;
+                    hash(typedPw)
+                        .then((hashedPw) => {
+                            db.updatePw(req.session.userId, hashedPw)
+                                .then(() => {
+                                    res.json({ success: true });
+                                })
+                                .catch((err) => {
+                                    console.error(
+                                        "error in db.updatePw: ",
+                                        err
+                                    );
+                                });
+                        })
+                        .catch((err) => {
+                            console.error("error in hash: ", err);
+                        });
+                }
+            }
+            // if (!match) {
+            //     res.json({ success: false });
+            // }
+        })
         .catch((err) => {
             console.error("error in db.didCodeExpire: ", err);
             res.json({ success: false });

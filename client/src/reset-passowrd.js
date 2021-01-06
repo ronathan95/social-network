@@ -42,7 +42,13 @@ export default class Login extends Component {
     updatePw() {
         axios
             .post("/password/reset/verify", this.state)
-            .then(() => {})
+            .then((res) => {
+                if (!res.data.success) {
+                    this.setState({ error: true });
+                } else {
+                    this.setState({ stage: 3 });
+                }
+            })
             .catch((err) => {
                 console.error(
                     "erron on axios.post(/password/reset/verify): ",
