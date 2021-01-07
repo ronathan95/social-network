@@ -44,7 +44,7 @@ module.exports.updatePw = (userId, newPw) => {
 
 module.exports.getUserInfo = (userId) => {
     const q =
-        "SELECT first, last, email, created_at, profile_pic FROM users WHERE id = ($1)";
+        "SELECT first, last, email, created_at, profile_pic, bio FROM users WHERE id = ($1)";
     const params = [userId];
     return db.query(q, params);
 };

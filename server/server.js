@@ -198,7 +198,14 @@ app.post("/password/reset/verify", (req, res) => {
 app.get("/profile-info", (req, res) => {
     db.getUserInfo(req.session.userId)
         .then(({ rows }) => {
-            const { first, last, email, created_at, profile_pic } = rows[0];
+            const {
+                first,
+                last,
+                email,
+                created_at,
+                profile_pic,
+                bio,
+            } = rows[0];
             res.json({
                 id: req.session.userId,
                 first: first,
@@ -206,6 +213,7 @@ app.get("/profile-info", (req, res) => {
                 email: email,
                 createdAt: created_at,
                 profilePic: profile_pic,
+                bio: bio,
             });
         })
         .catch((err) => {

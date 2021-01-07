@@ -7,14 +7,12 @@ export default class BioEditor extends Component {
         this.state = {
             textareaIsVisible: false,
             draftBio: "",
-            editMode: false,
         };
     }
 
     toggleTextarea() {
         this.setState({
             textareaIsVisible: !this.state.textareaIsVisible,
-            editMode: this.state.textareaIsVisible,
         });
     }
 
@@ -33,6 +31,7 @@ export default class BioEditor extends Component {
             .catch((err) => {
                 console.error("erron on axios.post(/update-bio): ", err);
             });
+        this.toggleTextarea();
     }
 
     render() {
@@ -52,11 +51,15 @@ export default class BioEditor extends Component {
                 <div>
                     {this.props.bio ? (
                         <button onClick={() => this.toggleTextarea()}>
-                            Edit Bio
+                            {!this.state.textareaIsVisible
+                                ? "Edit Bio"
+                                : "cancel"}
                         </button>
                     ) : (
                         <button onClick={() => this.toggleTextarea()}>
-                            Add Bio
+                            {!this.state.textareaIsVisible
+                                ? "Add Bio"
+                                : "cancel"}
                         </button>
                     )}
                 </div>
