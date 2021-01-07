@@ -234,6 +234,17 @@ app.post(
     }
 );
 
+app.post("/update-bio", (req, res) => {
+    const { draftBio } = req.body;
+    db.updateBio(req.session.userId, draftBio)
+        .then(() => {
+            res.json({ bio: draftBio });
+        })
+        .catch((err) => {
+            console.error("error in db.updateBio: ", err);
+        });
+});
+
 app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Component } from "react";
+import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
@@ -11,6 +12,7 @@ export default class App extends Component {
             first: "",
             last: "",
             email: "",
+            bio: "",
             createdAt: "",
             profilePic: "",
             uploaderIsVisible: false,
@@ -20,15 +22,8 @@ export default class App extends Component {
     componentDidMount() {
         axios
             .get("/profile-info")
-            .then((res) => {
-                this.setState({
-                    id: res.data.id,
-                    first: res.data.first,
-                    last: res.data.last,
-                    email: res.data.email,
-                    createdAt: res.data.createdAt,
-                    profilePic: res.data.profilePic,
-                });
+            .then(({ data }) => {
+                this.setState({ ...data });
             })
             .catch((err) => {
                 console.error("erron on axios.get(/profile-info): ", err);
@@ -47,6 +42,12 @@ export default class App extends Component {
         });
     }
 
+    updateBio(newBio) {
+        this.setState({
+            bio: newBio,
+        });
+    }
+
     render() {
         return (
             <div>
@@ -55,6 +56,14 @@ export default class App extends Component {
                     first={this.state.first}
                     profilePic={this.state.profilePic}
                     toggleUploader={() => this.toggleUploader()}
+                />
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    profilePic={this.state.profilePic}
+                    bio={this.state.bio}
+                    toggleUploader={() => this.toggleUploader()}
+                    updateBio={(newBio) => this.updateBio(newBio)}
                 />
                 {this.state.uploaderIsVisible && (
                     <Uploader
