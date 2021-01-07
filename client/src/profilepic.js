@@ -1,9 +1,24 @@
 import React from "react";
 
-export default function ProfilePic({ first, profilePic, toggleUploader }) {
+export default function ProfilePic({
+    first,
+    profilePic = "../default-profile-pic.jpg",
+    toggleUploader,
+}) {
+    console.log("profilePic: ", profilePic);
     return (
         <div>
-            {profilePic ? (
+            <img
+                onClick={() => toggleUploader()}
+                src={profilePic}
+                alt={first}
+            />
+        </div>
+    );
+}
+
+{
+    /* {profilePic ? (
                 <img
                     onClick={() => toggleUploader()}
                     src={profilePic}
@@ -15,7 +30,5 @@ export default function ProfilePic({ first, profilePic, toggleUploader }) {
                     src="../default-profile-pic.jpg"
                     alt={first}
                 />
-            )}
-        </div>
-    );
+            )} */
 }

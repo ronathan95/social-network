@@ -166,9 +166,8 @@ app.post("/password/reset/verify", (req, res) => {
                     match = true;
                     hash(typedPw)
                         .then((hashedPw) => {
-                            db.updatePw(req.session.userId, hashedPw)
+                            db.updatePw(email, hashedPw)
                                 .then(() => {
-                                    console.log("in then of updatePw query");
                                     res.json({ success: true });
                                 })
                                 .catch((err) => {

@@ -36,9 +36,9 @@ module.exports.didCodeExpire = (email) => {
     return db.query(q, params);
 };
 
-module.exports.updatePw = (userId, newPw) => {
-    const q = "UPDATE users SET password = ($2) WHERE id = ($1)";
-    const params = [userId, newPw];
+module.exports.updatePw = (email, newPw) => {
+    const q = "UPDATE users SET password = ($2) WHERE email = ($1)";
+    const params = [email, newPw];
     return db.query(q, params);
 };
 

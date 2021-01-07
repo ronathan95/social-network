@@ -1,3 +1,16 @@
 body {
-    background-color: ghostwhite;
+    background-color: #8e301b;
+}
+
+.logo {
+    width: 200px;
+    height: 200px;
+}
+
+.welcome {
+    margin-left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    margin-top: 5%;
+    font-family: "East Sea Dokdo", cursive;
 }
