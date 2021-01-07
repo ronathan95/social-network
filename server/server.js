@@ -159,18 +159,16 @@ app.post("/password/reset/start", (req, res) => {
 app.post("/password/reset/verify", (req, res) => {
     const { email, code: typedCode, pw: typedPw } = req.body;
     db.didCodeExpire(email)
-        .then(({ rows }) => {
-            const codes = rows[0];
-            console.log("codes: ", codes);
+        .then(({ rows: codes }) => {
             let match = false;
             for (let i = 0; i < codes.length; i++) {
-                console.log("codes[i].code: ", codes[i].code);
                 if (typedCode === codes[i].code) {
                     match = true;
                     hash(typedPw)
                         .then((hashedPw) => {
                             db.updatePw(req.session.userId, hashedPw)
                                 .then(() => {
+                                    console.log("in then of updatePw query");
                                     res.json({ success: true });
                                 })
                                 .catch((err) => {
@@ -178,16 +176,18 @@ app.post("/password/reset/verify", (req, res) => {
                                         "error in db.updatePw: ",
                                         err
                                     );
+                                    res.json({ success: false });
                                 });
                         })
                         .catch((err) => {
                             console.error("error in hash: ", err);
+                            res.json({ success: false });
                         });
                 }
             }
-            // if (!match) {
-            //     res.json({ success: false });
-            // }
+            if (!match) {
+                res.json({ success: false });
+            }
         })
         .catch((err) => {
             console.error("error in db.didCodeExpire: ", err);
