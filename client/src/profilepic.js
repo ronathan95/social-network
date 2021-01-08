@@ -1,10 +1,6 @@
 import React from "react";
 
-export default function ProfilePic({
-    first,
-    profilePic = "../default-profile-pic.jpg",
-    toggleUploader,
-}) {
+export default function ProfilePic({ first, profilePic, toggleUploader }) {
     return (
         <div>
             {profilePic ? (

@@ -27,6 +27,7 @@ export default class Login extends Component {
                 if (!res.data.success) {
                     this.setState({ error: true });
                 } else {
+                    this.setState({ error: false });
                     this.setState({ stage: 2 });
                 }
             })
@@ -46,6 +47,7 @@ export default class Login extends Component {
                 if (!res.data.success) {
                     this.setState({ error: true });
                 } else {
+                    this.setState({ error: false });
                     this.setState({ stage: 3 });
                 }
             })
