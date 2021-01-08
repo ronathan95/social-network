@@ -5,20 +5,9 @@ export default function ProfilePic({
     profilePic = "../default-profile-pic.jpg",
     toggleUploader,
 }) {
-    console.log("profilePic: ", profilePic);
     return (
         <div>
-            <img
-                onClick={() => toggleUploader()}
-                src={profilePic}
-                alt={first}
-            />
-        </div>
-    );
-}
-
-{
-    /* {profilePic ? (
+            {profilePic ? (
                 <img
                     onClick={() => toggleUploader()}
                     src={profilePic}
@@ -30,5 +19,7 @@ export default function ProfilePic({
                     src="../default-profile-pic.jpg"
                     alt={first}
                 />
-            )} */
+            )}
+        </div>
+    );
 }
