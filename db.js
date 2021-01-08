@@ -60,3 +60,10 @@ module.exports.updateBio = (userId, bio) => {
     const params = [userId, bio];
     return db.query(q, params);
 };
+
+module.exports.getOtherUserInfo = (userId) => {
+    const q =
+        "SELECT first, last, email, created_at, profile_pic, bio FROM users WHERE id = ($1)";
+    const params = [userId];
+    return db.query(q, params);
+};

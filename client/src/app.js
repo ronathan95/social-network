@@ -1,4 +1,4 @@
-import axios from "../src/axios";
+import axios from "./axios";
 import { Component } from "react";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
@@ -84,7 +84,6 @@ export default class App extends Component {
                                 match={props.match}
                                 key={props.match.url}
                                 history={props.history}
-                                id={this.state.id}
                             />
                         )}
                     />

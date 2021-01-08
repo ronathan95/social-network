@@ -252,6 +252,41 @@ app.post("/update-bio", (req, res) => {
         });
 });
 
+app.get("/other-profile-info/:id", (req, res) => {
+    const { id } = req.params;
+    if (id == req.session.userId) {
+        res.json({ sameUserOrNonExistingUser: true });
+    } else {
+        db.getOtherUserInfo(id)
+            .then(({ rows }) => {
+                if (rows.length == 0) {
+                    res.json({ sameUserOrNonExistingUser: true });
+                } else {
+                    const {
+                        first,
+                        last,
+                        email,
+                        created_at,
+                        profile_pic,
+                        bio,
+                    } = rows[0];
+                    res.json({
+                        id: req.session.userId,
+                        first: first,
+                        last: last,
+                        email: email,
+                        createdAt: created_at,
+                        profilePic: profile_pic,
+                        bio: bio,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.error("error in db.getOtherUserInfo: ", err);
+            });
+    }
+});
+
 app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
