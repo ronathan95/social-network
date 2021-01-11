@@ -4,6 +4,7 @@ import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import OtherProfile from "./other-profile";
+import FindPeople from "./find-people";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends Component {
@@ -54,7 +55,7 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <h1>App</h1>
+                    <h1>Welcome {this.state.first}</h1>
 
                     <ProfilePic
                         first={this.state.first}
@@ -87,6 +88,8 @@ export default class App extends Component {
                             />
                         )}
                     />
+
+                    <Route path="/users" render={() => <FindPeople />} />
 
                     {this.state.uploaderIsVisible && (
                         <div className="overlay">

@@ -67,3 +67,18 @@ module.exports.getOtherUserInfo = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.lastRegistered = () => {
+    return db.query("SELECT * FROM users ORDER BY id DESC LIMIT 3");
+};
+
+// module.exports.getUsersByName = (first, last) => {
+//     return db.query(
+//         "SELECT * FROM users WHERE first ILIKE $1 AND last ILIKE $2;",
+//         [first + "%", last + "%"]
+//     );
+// };
+
+module.exports.getUsersByFirstName = (first) => {
+    return db.query("SELECT * FROM users WHERE first ILIKE $1;", [first + "%"]);
+};

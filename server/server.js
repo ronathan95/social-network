@@ -287,6 +287,39 @@ app.get("/other-profile-info/:id", (req, res) => {
     }
 });
 
+app.get("/last-registered", (req, res) => {
+    db.lastRegistered()
+        .then(({ rows: lastRegisteredArray }) => {
+            res.json({ lastRegisteredArray: lastRegisteredArray });
+        })
+        .catch((err) => {
+            console.error("error in db.lastRegistered: ", err);
+        });
+});
+
+app.get("/find-user/:name", (req, res) => {
+    // const { name } = req.params;
+    // const first = name.split(" ")[0];
+    // const last = name.split(" ")[1] || "";
+    // db.getUsersByName(first, last)
+    //     .then(({ rows }) => {
+    //         console.log("searched: ", name);
+    //         console.log("rows: ", rows);
+    //     })
+    //     .catch((err) => {
+    //         console.error("error in db.lastRegistered: ", err);
+    //     });
+    const { name } = req.params;
+    const first = name.split(" ")[0];
+    db.getUsersByFirstName(first)
+        .then(({ rows: usersSearchResults }) => {
+            res.json({ usersSearchResults: usersSearchResults });
+        })
+        .catch((err) => {
+            console.error("error in db.lastRegistered: ", err);
+        });
+});
+
 app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
