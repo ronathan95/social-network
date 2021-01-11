@@ -55,13 +55,17 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <h1>Welcome {this.state.first}</h1>
+                    <div className="header">
+                        <h3>Propos</h3>
 
-                    <ProfilePic
-                        first={this.state.first}
-                        profilePic={this.state.profilePic}
-                        toggleUploader={() => this.toggleUploader()}
-                    />
+                        <ProfilePic
+                            first={this.state.first}
+                            profilePic={this.state.profilePic}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+
+                        <p className="header-userName">{this.state.first}</p>
+                    </div>
 
                     <Route
                         exact
