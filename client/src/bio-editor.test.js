@@ -1,6 +1,6 @@
 import React from "react";
 import BioEditor from "./bio-editor";
-import { render, fireEvent, waitForElement } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import axios from "./axios";
 
 test("When no bio is passed, an 'Add Bio' button is rendered", () => {
@@ -44,7 +44,6 @@ test("Clicking the 'Update Bio' button causes an ajax request. When the request 
     const { container } = render(<BioEditor updateBio={mockUpdateBio} />);
     fireEvent.click(container.querySelector("button"));
     fireEvent.click(container.querySelector("button"));
-    await waitForElement(() => container.querySelector("div"));
     mockUpdateBio();
-    expect(mockUpdateBio.mock.calls.length).toBe(1);
+    await waitFor(() => expect(mockUpdateBio.mock.calls.length).toBe(1));
 });
