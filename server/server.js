@@ -271,7 +271,7 @@ app.get("/other-profile-info/:id", (req, res) => {
                         bio,
                     } = rows[0];
                     res.json({
-                        id: req.session.userId,
+                        id: id,
                         first: first,
                         last: last,
                         email: email,
@@ -308,6 +308,72 @@ app.get("/find-user/:name", (req, res) => {
         .catch((err) => {
             console.error("error in db.lastRegistered: ", err);
         });
+});
+
+app.get("/friendship-status/:id", (req, res) => {
+    const { id: otherUserId } = req.params;
+    db.checkFriendshipStatus(req.session.userId, otherUserId)
+        .then(({ rows: status }) => {
+            if (status.length == 0) {
+                res.json({ friends: false });
+            } else if (status[0].accepted) {
+                res.json({ friends: true });
+            } else if (!status[0].accepted) {
+                let sender = false;
+                if (req.session.userId == status[0].sender_id) {
+                    sender = true;
+                }
+                res.json({ requestSent: true, sender: sender });
+            }
+        })
+        .catch((err) => {
+            console.error("error in db.checkFriendshipStatus: ", err);
+        });
+});
+
+app.post("/friendship-action", (req, res) => {
+    const BUTTON_TEXT = {
+        MAKE_REQUEST: "Make Request",
+        CNCL_REQUEST: "Cancel Request",
+        ACCPT_REQUEST: "Accept Request",
+        UNFRIEND: "Unfriend",
+    };
+
+    const { action, otherUserId } = req.body;
+
+    if (action == BUTTON_TEXT.MAKE_REQUEST) {
+        db.makeFriendshipRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.json({ changeBtnTextTo: BUTTON_TEXT.CNCL_REQUEST });
+            })
+            .catch((err) => {
+                console.error("error in db.makeFriendshipRequest: ", err);
+            });
+    } else if (action == BUTTON_TEXT.CNCL_REQUEST) {
+        db.cancelFriendshipRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.json({ changeBtnTextTo: BUTTON_TEXT.MAKE_REQUEST });
+            })
+            .catch((err) => {
+                console.error("error in db.cancelFriendshipRequest: ", err);
+            });
+    } else if (action == BUTTON_TEXT.ACCPT_REQUEST) {
+        db.acceptFriendshipRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.json({ changeBtnTextTo: BUTTON_TEXT.UNFRIEND });
+            })
+            .catch((err) => {
+                console.error("error in db.acceptFriendshipRequest: ", err);
+            });
+    } else if (action == BUTTON_TEXT.UNFRIEND) {
+        db.unfriend(req.session.userId, otherUserId)
+            .then(() => {
+                res.json({ changeBtnTextTo: BUTTON_TEXT.MAKE_REQUEST });
+            })
+            .catch((err) => {
+                console.error("error in db.unfriend: ", err);
+            });
+    }
 });
 
 app.get("*", (req, res) => {
