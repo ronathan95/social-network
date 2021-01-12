@@ -33,7 +33,7 @@ test("Clicking the 'Edit Bio' button causes a textarea and a 'Update Bio' button
 
 jest.mock("./axios");
 
-axios.get.mockResolvedValue({
+axios.post.mockResolvedValue({
     data: {
         bio: "my bio",
     },
@@ -44,6 +44,7 @@ test("Clicking the 'Update Bio' button causes an ajax request. When the request 
     const { container } = render(<BioEditor updateBio={mockUpdateBio} />);
     fireEvent.click(container.querySelector("button"));
     fireEvent.click(container.querySelector("button"));
-    mockUpdateBio();
-    await waitFor(() => expect(mockUpdateBio.mock.calls.length).toBe(1));
+    await waitFor(() => {
+        expect(mockUpdateBio.mock.calls.length).toBe(1);
+    });
 });
