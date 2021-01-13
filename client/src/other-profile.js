@@ -2,6 +2,15 @@ import { Component } from "react";
 import axios from "./axios";
 import FriendButton from "./friend-button";
 
+import {
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Typography,
+} from "@material-ui/core";
+
 export default class OtherProfile extends Component {
     constructor(props) {
         super(props);
@@ -42,12 +51,42 @@ export default class OtherProfile extends Component {
     render() {
         return (
             <div>
-                <img src={this.state.profilePic} alt="profile picture" />
+                <Card className="other-user-card">
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            alt="profile picture"
+                            height="240"
+                            image={this.state.profilePic}
+                            title={this.state.first}
+                        />
+                        <CardContent>
+                            <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                            >
+                                {this.state.first} {this.state.last}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                            >
+                                {this.state.bio}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                        <FriendButton id={this.state.id} />
+                    </CardActions>
+                </Card>
+                {/* <img src={this.state.profilePic} alt="profile picture" />
                 <p>
                     name: {this.state.first} {this.state.last}
                 </p>
                 <p>bio: {this.state.bio}</p>
-                <FriendButton id={this.state.id} />
+                <FriendButton id={this.state.id} /> */}
             </div>
         );
     }

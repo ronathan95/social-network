@@ -7,6 +7,8 @@ import OtherProfile from "./other-profile";
 import FindPeople from "./find-people";
 import { BrowserRouter, Route } from "react-router-dom";
 
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+
 export default class App extends Component {
     constructor() {
         super();
@@ -55,17 +57,20 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <div className="header">
-                        <h3>Propos</h3>
-
-                        <ProfilePic
-                            first={this.state.first}
-                            profilePic={this.state.profilePic}
-                            toggleUploader={() => this.toggleUploader()}
-                        />
-
-                        <p className="header-userName">{this.state.first}</p>
-                    </div>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <div className="header-profilepic">
+                                <ProfilePic
+                                    first={this.state.first}
+                                    profilePic={this.state.profilePic}
+                                    toggleUploader={() => this.toggleUploader()}
+                                />
+                            </div>
+                            <Typography varient="h3">
+                                {this.state.first}, welcome to Propos
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
 
                     <Route
                         exact

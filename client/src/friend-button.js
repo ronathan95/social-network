@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 
+import { Button } from "@material-ui/core";
+
 export default function FriendButton({ id }) {
     const otherUserId = Number(id);
     const [buttonText, setButtonText] = useState("");
@@ -56,7 +58,10 @@ export default function FriendButton({ id }) {
 
     return (
         <div>
-            <button onClick={handleClick}>{buttonText}</button>
+            <Button variant="contained" onClick={handleClick}>
+                {buttonText}
+            </Button>
+            {/* <button onClick={handleClick}>{buttonText}</button> */}
         </div>
     );
 }

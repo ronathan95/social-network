@@ -2,17 +2,11 @@ body {
     background-color: ghostwhite;
 }
 
-.header {
-    border: black 1px solid;
-    height: 80px;
-}
-
-.header > .profilepic {
-    float: right;
-    height: 80px;
-    object-fit: cover;
+.header-profilepic > .profilepic {
+    height: 50px;
     border-radius: 50%;
 }
 
-.header-userName {
+.other-user-card {
+    width: 250px;
 }
