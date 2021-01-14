@@ -113,3 +113,15 @@ module.exports.unfriend = (userId, otherUserId) => {
     const params = [userId, otherUserId];
     return db.query(q, params);
 };
+
+module.exports.getFriendsList = (userId) => {
+    const q =
+        "SELECT users.id, users.first, users.last, users.profile_pic, friendships.accepted " +
+        "FROM friendships " +
+        "JOIN users " +
+        "ON (friendships.accepted = false AND friendships.recipient_id = $1 AND friendships.sender_id = users.id) " +
+        "OR (friendships.accepted = true AND friendships.recipient_id = $1 AND friendships.sender_id = users.id) " +
+        "OR (friendships.accepted = true AND friendships.sender_id = $1 AND friendships.recipient_id = users.id)";
+    const params = [userId];
+    return db.query(q, params);
+};

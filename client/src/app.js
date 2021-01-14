@@ -5,6 +5,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import OtherProfile from "./other-profile";
 import FindPeople from "./find-people";
+import Friends from "./friends";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
@@ -99,6 +100,8 @@ export default class App extends Component {
                     />
 
                     <Route path="/users" render={() => <FindPeople />} />
+
+                    <Route path="/friends" render={() => <Friends />} />
 
                     {this.state.uploaderIsVisible && (
                         <div className="overlay">

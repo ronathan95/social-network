@@ -376,6 +376,16 @@ app.post("/friendship-action", (req, res) => {
     }
 });
 
+app.get("/friends-list", (req, res) => {
+    db.getFriendsList(req.session.userId)
+        .then(({ rows: friendsList }) => {
+            res.json({ friendsList });
+        })
+        .catch((err) => {
+            console.error("error in db.getFriendsList: ", err);
+        });
+});
+
 app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
