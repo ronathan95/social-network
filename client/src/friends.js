@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFriendsAndRequestsList, acceptFriendRequest } from "./actions";
+import {
+    getFriendsAndRequestsList,
+    acceptFriendRequest,
+    unfriend,
+} from "./actions";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -34,6 +38,10 @@ export default function Friends() {
         dispatch(acceptFriendRequest(otherUserId));
     }
 
+    function handleUnfriendClick(otherUserId) {
+        dispatch(unfriend(otherUserId));
+    }
+
     return (
         <div>
             <h1>Friends Page</h1>
@@ -45,7 +53,7 @@ export default function Friends() {
                             {request.first} {request.last}
                         </p>
                         <img src={request.profile_pic} />
-                        <button onClick={handleAcceptClick(request.id)}>
+                        <button onClick={() => handleAcceptClick(request.id)}>
                             {BUTTON_TEXT.ACCPT_REQUEST}
                         </button>
                     </div>
@@ -58,7 +66,9 @@ export default function Friends() {
                             {friend.first} {friend.last}
                         </p>
                         <img src={friend.profile_pic} />
-                        {/* <button onClick={handleUnfriendClick(friend.id)}>{BUTTON_TEXT.UNFRIEND}</button> */}
+                        <button onClick={() => handleUnfriendClick(friend.id)}>
+                            {BUTTON_TEXT.UNFRIEND}
+                        </button>
                     </div>
                 ))}
         </div>

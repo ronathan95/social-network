@@ -9,13 +9,28 @@ export default function reducer(state = {}, action) {
     if (action.type == "ACCEPT_FRIEND_REQUEST") {
         state = {
             ...state,
-            friendsAndRequestsList: friendsAndRequestsList.map(
-                (friendsAndRequestsList) => {
-                    friendsAndRequestsList.id == action.userIdOfAccepted &&
-                        (friendsAndRequestsList.accepted = true);
+            friendsAndRequestsList: state.friendsAndRequestsList.map(
+                (friendOrRequest) => {
+                    friendOrRequest.id == action.userIdOfAccepted &&
+                        (friendOrRequest = {
+                            ...friendOrRequest,
+                            accepted: true,
+                        });
+                    return friendOrRequest;
                 }
             ),
         };
     }
+
+    if (action.type == "UNFRIEND") {
+        state = {
+            ...state,
+            friendsAndRequestsList: state.friendsAndRequestsList.filter(
+                (friendOrRequest) =>
+                    friendOrRequest.id != action.userIdOfUnfriend
+            ),
+        };
+    }
+
     return state;
 }

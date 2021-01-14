@@ -25,3 +25,14 @@ export async function acceptFriendRequest(otherUserId) {
         userIdOfAccepted: otherUserId,
     };
 }
+
+export async function unfriend(otherUserId) {
+    await axios.post("/friendship-action", {
+        action: BUTTON_TEXT.UNFRIEND,
+        otherUserId: otherUserId,
+    });
+    return {
+        type: "UNFRIEND",
+        userIdOfUnfriend: otherUserId,
+    };
+}
