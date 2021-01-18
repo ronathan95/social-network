@@ -36,3 +36,17 @@ export async function unfriend(otherUserId) {
         userIdOfUnfriend: otherUserId,
     };
 }
+
+export async function postNewMessage(userAndMessageInfo) {
+    return {
+        type: "POST_NEW_MESSAGE",
+        userAndMessageInfo: userAndMessageInfo,
+    };
+}
+
+export async function addTenMostRecentMessages(messages) {
+    return {
+        type: "ADD_TEN_MOST_RECENT_MESSAGES",
+        messages: messages,
+    };
+}

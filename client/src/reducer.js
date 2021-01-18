@@ -32,5 +32,19 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "POST_NEW_MESSAGE") {
+        state = {
+            ...state,
+            messages: [...state.messages, action.userAndMessageInfo],
+        };
+    }
+
+    if (action.type == "ADD_TEN_MOST_RECENT_MESSAGES") {
+        state = {
+            ...state,
+            messages: action.messages,
+        };
+    }
+
     return state;
 }

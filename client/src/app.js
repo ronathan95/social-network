@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import OtherProfile from "./other-profile";
 import FindPeople from "./find-people";
 import Friends from "./friends";
+import Chat from "./chat";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
@@ -102,6 +103,8 @@ export default class App extends Component {
                     <Route path="/users" render={() => <FindPeople />} />
 
                     <Route path="/friends" render={() => <Friends />} />
+
+                    <Route path="/chat" render={() => <Chat />} />
 
                     {this.state.uploaderIsVisible && (
                         <div className="overlay">

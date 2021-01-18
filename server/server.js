@@ -45,12 +45,21 @@ app.use(
     })
 );
 
-app.use(
-    cookieSession({
-        secret: `I'm always angry.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -394,6 +403,41 @@ app.get("*", (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", (socket) => {
+    socket.on("new message", (message) => {
+        db.addNewMessage(socket.request.session.userId, message)
+            .then(({ rows: idAndtimeStamp }) => {
+                const msgId = idAndtimeStamp[0].id;
+                const createdAt = idAndtimeStamp[0].created_at;
+                db.getUserInfo(socket.request.session.userId)
+                    .then(({ rows: userInfo }) => {
+                        io.sockets.emit("new message and user info", {
+                            id: msgId,
+                            message,
+                            created_at: createdAt,
+                            first: userInfo[0].first,
+                            last: userInfo[0].last,
+                            profile_pic: userInfo[0].profile_pic,
+                        });
+                    })
+                    .catch((err) => {
+                        console.error("error in db.getUserInfo: ", err);
+                    });
+            })
+            .catch((err) => {
+                console.error("error in db.addNewMessage: ", err);
+            });
+    });
+
+    db.getTenMostRecentMessages()
+        .then(({ rows: messages }) => {
+            socket.emit("10 most recent messages", messages);
+        })
+        .catch((err) => {
+            console.error("error in db.getTenMostRecentMessages: ", err);
+        });
 });
