@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { socket } from "./socket";
 
@@ -8,6 +8,7 @@ export default function Chat() {
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             socket.emit("new message", e.target.value);
+            e.target.value = "";
         }
     };
 
@@ -32,7 +33,12 @@ export default function Chat() {
                         </div>
                     ))}
             </div>
-            <textarea onKeyDown={handleKeyDown} />
+            <textarea
+                cols="80"
+                rows="2"
+                placeholder="Type in your message and press Enter to send it"
+                onKeyDown={handleKeyDown}
+            />
         </div>
     );
 }

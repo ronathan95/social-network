@@ -59,7 +59,7 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <AppBar position="static">
+                    <AppBar position="static" color="secondary">
                         <Toolbar>
                             <div className="header-profilepic">
                                 <ProfilePic
@@ -112,6 +112,7 @@ export default class App extends Component {
                                 updateProfilePic={(newProfilePic) =>
                                     this.updateProfilePic(newProfilePic)
                                 }
+                                toggleUploader={() => this.toggleUploader()}
                             />
                         </div>
                     )}

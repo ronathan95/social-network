@@ -31,6 +31,10 @@ export default class Uploader extends Component {
         });
     }
 
+    closeModal() {
+        this.props.toggleUploader();
+    }
+
     render() {
         return (
             <div>
@@ -43,6 +47,7 @@ export default class Uploader extends Component {
                     accept="image/*"
                 />
                 <button onClick={() => this.handleClick()}>Update</button>
+                <button onClick={() => this.closeModal()}>Close</button>
             </div>
         );
     }
