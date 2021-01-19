@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { socket } from "./socket";
 
 export default function Chat() {
     const chatMessages = useSelector((state) => state && state.messages);
+
+    const elemRef = useRef();
+
+    useEffect(() => {
+        elemRef.current.scrollIntoView({ behavior: "smooth" });
+    }, [chatMessages]);
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -34,6 +40,7 @@ export default function Chat() {
                     ))}
             </div>
             <textarea
+                ref={elemRef}
                 cols="80"
                 rows="2"
                 placeholder="Type in your message and press Enter to send it"
