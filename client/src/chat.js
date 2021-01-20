@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { socket } from "./socket";
 
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, TextareaAutosize } from "@material-ui/core";
 
 export default function Chat() {
     const chatMessages = useSelector((state) => state && state.messages);
@@ -34,8 +34,9 @@ export default function Chat() {
                                         "../default-profile-pic.jpg"
                                     }
                                 />
-                                <Typography>
-                                    {msg.first} {msg.last} {msg.created_at}
+                                <Typography variant="caption">
+                                    {msg.first} {msg.last}{" "}
+                                    {formatDateTime(msg.created_at)}
                                 </Typography>
                                 <br />
                                 <Typography>{msg.message}</Typography>
@@ -43,13 +44,24 @@ export default function Chat() {
                         </div>
                     ))}
             </div>
-            <textarea
+            <TextareaAutosize
                 ref={elemRef}
                 cols="80"
-                rows="2"
+                rows="10"
                 placeholder="Type in your message and press Enter to send it"
                 onKeyDown={handleKeyDown}
             />
         </>
     );
 }
+
+const formatDateTime = (date) => {
+    return new Intl.DateTimeFormat("en-GB", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+    }).format(new Date(date));
+};
