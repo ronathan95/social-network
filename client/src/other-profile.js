@@ -50,13 +50,13 @@ export default class OtherProfile extends Component {
 
     render() {
         return (
-            <div>
-                <Card className="other-user-card">
+            <>
+                <Card className="user-card">
                     <CardActionArea>
                         <CardMedia
                             component="img"
                             alt="profile picture"
-                            height="240"
+                            height="400"
                             image={this.state.profilePic}
                             title={this.state.first}
                         />
@@ -87,7 +87,7 @@ export default class OtherProfile extends Component {
                 </p>
                 <p>bio: {this.state.bio}</p>
                 <FriendButton id={this.state.id} /> */}
-            </div>
+            </>
         );
     }
 }

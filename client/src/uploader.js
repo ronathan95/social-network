@@ -1,6 +1,8 @@
 import { Component } from "react";
 import axios from "./axios";
 
+import { Typography, Button } from "@material-ui/core";
+
 export default class Uploader extends Component {
     constructor(props) {
         super(props);
@@ -37,17 +39,22 @@ export default class Uploader extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Uploader</h1>
-                <h4>Want to change your profile picture?</h4>
+            <div className="overlay">
+                <Button onClick={() => this.closeModal()} variant="contained">
+                    Close
+                </Button>
+                <Typography variant="h5">
+                    Want to change your profile picture?
+                </Typography>
                 <input
                     onChange={(e) => this.handleChange(e)}
                     name="profilePic"
                     type="file"
                     accept="image/*"
                 />
-                <button onClick={() => this.handleClick()}>Update</button>
-                <button onClick={() => this.closeModal()}>Close</button>
+                <Button onClick={() => this.handleClick()} variant="contained">
+                    Update
+                </Button>
             </div>
         );
     }

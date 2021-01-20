@@ -1,6 +1,8 @@
 import { Component } from "react";
 import axios from "./axios";
 
+import { Button } from "@material-ui/core";
+
 export default class BioEditor extends Component {
     constructor(props) {
         super(props);
@@ -43,24 +45,24 @@ export default class BioEditor extends Component {
                             onChange={(e) => this.handleChange(e)}
                             defaultValue={this.props.bio}
                         ></textarea>
-                        <button onClick={() => this.updateBio()}>
+                        <Button onClick={() => this.updateBio()}>
                             Update Bio
-                        </button>
+                        </Button>
                     </>
                 )}
                 <div>
                     {this.props.bio ? (
-                        <button onClick={() => this.toggleTextarea()}>
+                        <Button onClick={() => this.toggleTextarea()}>
                             {!this.state.textareaIsVisible
                                 ? "Edit Bio"
                                 : "cancel"}
-                        </button>
+                        </Button>
                     ) : (
-                        <button onClick={() => this.toggleTextarea()}>
+                        <Button onClick={() => this.toggleTextarea()}>
                             {!this.state.textareaIsVisible
                                 ? "Add Bio"
                                 : "cancel"}
-                        </button>
+                        </Button>
                     )}
                 </div>
             </div>

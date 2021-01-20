@@ -236,7 +236,7 @@ app.post(
     s3.upload,
     (req, res) => {
         if (req.file) {
-            const url = s3Url + req.file.filename;
+            const url = `${s3Url}roni/${req.session.userId}/${req.file.filename}`;
             db.updateProfilePic(req.session.userId, url)
                 .then(() => {
                     res.json({ profilePic: url });
@@ -393,6 +393,18 @@ app.get("/friends-list", (req, res) => {
         .catch((err) => {
             console.error("error in db.getFriendsList: ", err);
         });
+});
+
+app.post("/delete-account", s3.delete, (req, res) => {
+    //midleware s3.delete can't run due to AWS account settings!!!
+    // db.deleteUser(req.session.userId)
+    //     .then(() => {
+    //         req.session = null;
+    //         res.redirect("/welcome");
+    //     })
+    //     .catch((err) => {
+    //         console.error("error in db.deleteUser: ", err);
+    //     });
 });
 
 app.get("*", (req, res) => {

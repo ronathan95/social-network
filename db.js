@@ -142,3 +142,45 @@ module.exports.addNewMessage = (userId, message) => {
     const params = [userId, message];
     return db.query(q, params);
 };
+
+deleteUserFromUsers = (userId) => {
+    const q = "DELETE FROM users WHERE id = ($1)";
+    const params = [userId];
+    return db.query(q, params);
+};
+
+// update to reset_codes table is needed: adding user_id column
+
+// deleteUserFromResetCodes = (userId) => {
+//     const q = "DELETE FROM reset_codes WHERE user_id = ($1)";
+//     const params = [userId];
+//     return db.query(q, params);
+// };
+
+deleteUserFromFriendships = (userId) => {
+    const q =
+        "DELETE FROM friendships WHERE sender_id = ($1) OR recipient_id = ($1)";
+    const params = [userId];
+    return db.query(q, params);
+};
+
+deleteUserFromChatMessages = (userId) => {
+    const q = "DELETE FROM chat_messages WHERE user_id = ($1)";
+    const params = [userId];
+    return db.query(q, params);
+};
+
+module.exports.deleteUser = (userId) => {
+    Promise.all([
+        deleteUserFromUsers(userId),
+        deleteUserFromResetCodes(userId),
+        deleteUserFromFriendships(userId),
+        deleteUserFromChatMessages(userId),
+    ])
+        .then(() => {
+            console.log(`user with id ${userId} deleted his account`);
+        })
+        .catch((err) => {
+            console.error("error in db.deleteUser: ", err);
+        });
+};

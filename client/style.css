@@ -2,28 +2,45 @@ body {
     background-color: ghostwhite;
 }
 
-.header-profilepic > .profilepic {
-    height: 50px;
+.header-profilepic > .profilepic,
+.chat-profilepic {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
     border-radius: 50%;
     margin-right: 20px;
     cursor: pointer;
 }
 
-.other-user-card {
-    width: 250px;
+.user-card {
+    width: 30%;
+    margin-top: 30px;
+    margin-left: 50%;
+    transform: translate(-50%);
+    text-align: center;
 }
 
 .overlay {
-    background-color: black;
-    opacity: 0.5;
     color: white;
     position: fixed;
     top: 0;
     z-index: 1;
     width: 100%;
     height: 100%;
+    padding-top: 30%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-button {
-    cursor: pointer;
+.nav > p {
+    margin-left: 30px;
+    float: right;
+}
+
+.chat-container {
+    margin-top: 30px;
+}
+
+.chat-msg {
+    margin-bottom: 10px;
 }

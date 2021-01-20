@@ -7,7 +7,7 @@ import OtherProfile from "./other-profile";
 import FindPeople from "./find-people";
 import Friends from "./friends";
 import Chat from "./chat";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
@@ -58,7 +58,7 @@ export default class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <div>
+                <>
                     <AppBar position="static" color="secondary">
                         <Toolbar>
                             <div className="header-profilepic">
@@ -71,6 +71,26 @@ export default class App extends Component {
                             <Typography varient="h3">
                                 {this.state.first}, welcome to Propos
                             </Typography>
+
+                            <Link className="nav" to="/">
+                                <Typography varient="h3">Profile</Typography>
+                            </Link>
+
+                            <Link className="nav" to="/users">
+                                <Typography varient="h3">
+                                    Find Other Users
+                                </Typography>
+                            </Link>
+
+                            <Link className="nav" to="/friends">
+                                <Typography varient="h3">
+                                    Friends and Friends Requests
+                                </Typography>
+                            </Link>
+
+                            <Link className="nav" to="/chat">
+                                <Typography varient="h3">Chat</Typography>
+                            </Link>
                         </Toolbar>
                     </AppBar>
 
@@ -107,16 +127,14 @@ export default class App extends Component {
                     <Route path="/chat" render={() => <Chat />} />
 
                     {this.state.uploaderIsVisible && (
-                        <div className="overlay">
-                            <Uploader
-                                updateProfilePic={(newProfilePic) =>
-                                    this.updateProfilePic(newProfilePic)
-                                }
-                                toggleUploader={() => this.toggleUploader()}
-                            />
-                        </div>
+                        <Uploader
+                            updateProfilePic={(newProfilePic) =>
+                                this.updateProfilePic(newProfilePic)
+                            }
+                            toggleUploader={() => this.toggleUploader()}
+                        />
                     )}
-                </div>
+                </>
             </BrowserRouter>
         );
     }
