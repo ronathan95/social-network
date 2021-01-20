@@ -41,7 +41,7 @@ export default function Profile({
                         onClick={() => toggleUploader()}
                         component="img"
                         alt="profile picture"
-                        height="400"
+                        height="350"
                         image={profilePic || "../default-profile-pic.jpg"}
                         title={first}
                     />
@@ -61,6 +61,7 @@ export default function Profile({
                 <CardActions>
                     <BioEditor bio={bio} updateBio={updateBio} />
                     <Button
+                        variant="outlined"
                         onClick={() => {
                             setDeletionMessage(true);
                         }}
@@ -74,6 +75,7 @@ export default function Profile({
                                 account?
                             </Typography>
                             <Button
+                                variant="outlined"
                                 onClick={() => {
                                     deleteAccount();
                                 }}
@@ -82,6 +84,7 @@ export default function Profile({
                                 Yes
                             </Button>
                             <Button
+                                variant="outlined"
                                 onClick={() => {
                                     setDeletionMessage(false);
                                 }}

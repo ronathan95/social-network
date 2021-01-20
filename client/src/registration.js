@@ -2,6 +2,9 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "./axios";
 
+import { Typography, Button, Input, Paper } from "@material-ui/core";
+import ErrorIcon from "@material-ui/icons/Error";
+
 export default class Registration extends Component {
     constructor(props) {
         super(props);
@@ -38,39 +41,64 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Registration</h1>
+            <Paper className="registration">
+                <Typography variant="h5">Registration</Typography>
                 {this.state.error && (
-                    <p>Something went wrong, please try again</p>
+                    <Typography
+                        className="registration-element"
+                        variant="body1"
+                        color="error"
+                    >
+                        <ErrorIcon /> Something went wrong, please try again
+                    </Typography>
                 )}
-                <input
+                <Input
+                    className="registration-element"
                     onChange={(e) => this.handleChange(e)}
                     type="text"
                     name="first"
                     placeholder="Firt Name"
                 />
-                <input
+                <Input
+                    className="registration-element"
                     onChange={(e) => this.handleChange(e)}
                     type="text"
                     name="last"
                     placeholder="Last Name"
                 />
-                <input
+                <Input
+                    className="registration-element"
                     onChange={(e) => this.handleChange(e)}
                     type="text"
                     name="email"
                     placeholder="Email"
                 />
-                <input
+                <Input
+                    className="registration-element"
                     onChange={(e) => this.handleChange(e)}
                     type="password"
                     name="pw"
                     placeholder="Password"
                 />
-                <button onClick={() => this.handleClick()}>Register</button>
-                <p>Already a member? </p>
-                <Link to="/login">Log in!</Link>
-            </div>
+                <Button
+                    className="registration-element"
+                    variant="outlined"
+                    onClick={() => this.handleClick()}
+                >
+                    Register
+                </Button>
+                <Typography className="registration-element" variant="body1">
+                    Already a member?
+                </Typography>
+                <Link to="/login">
+                    <Typography
+                        className="registration-element"
+                        variant="body1"
+                    >
+                        Log in!
+                    </Typography>
+                </Link>
+            </Paper>
         );
     }
 }

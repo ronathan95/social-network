@@ -91,6 +91,10 @@ export default class App extends Component {
                             <Link className="nav" to="/chat">
                                 <Typography varient="h3">Chat</Typography>
                             </Link>
+
+                            <Link className="nav" to="/logout">
+                                <Typography varient="h3">Log Out</Typography>
+                            </Link>
                         </Toolbar>
                     </AppBar>
 

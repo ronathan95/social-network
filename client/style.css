@@ -38,7 +38,8 @@ body {
 }
 
 .chat-container,
-.other-users {
+.other-users,
+.friends {
     margin-top: 30px;
 }
 
@@ -47,14 +48,42 @@ body {
 }
 
 .newbies,
-.searched-users {
+.searched-users,
+.registration,
+.welcome h3 {
     margin-top: 20px;
 }
 
 .newbies img,
-.searched-users img {
+.searched-users img,
+.friends img {
     height: 150px;
     width: 150px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.friend-or-request {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.registration,
+.login,
+.reset-pw {
+    width: 50%;
+    margin-top: 30px;
+    margin-left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.registration-element,
+.login-element,
+.reset-pw-element {
+    margin-top: 10px;
 }

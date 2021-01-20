@@ -2,6 +2,10 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "./axios";
 
+import { Typography, Button, Input, Paper } from "@material-ui/core";
+import ErrorIcon from "@material-ui/icons/Error";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -62,53 +66,91 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Reset Password</h1>
+            <Paper className="reset-pw">
+                <Typography variant="h5">Reset Password</Typography>
                 {this.state.error && (
-                    <p>Something went wrong, please try again</p>
+                    <Typography
+                        className="reset-pw-element"
+                        variant="body1"
+                        color="error"
+                    >
+                        <ErrorIcon /> Something went wrong, please try again
+                    </Typography>
                 )}
                 {this.state.stage === 1 && (
                     <div>
-                        <input
+                        <Input
+                            className="reset-pw-element"
                             onChange={(e) => this.handleChange(e)}
                             type="text"
                             name="email"
                             placeholder="Email"
                         />
-                        <button onClick={() => this.resetPw()}>
+                        <Button
+                            className="reset-pw-element"
+                            variant="outlined"
+                            onClick={() => this.resetPw()}
+                        >
                             Reset password
-                        </button>
-                        <p>Don't have an account yet? </p>
-                        <Link to="/">Register!</Link>
+                        </Button>
+                        <Typography
+                            className="reset-pw-element"
+                            variant="body1"
+                        >
+                            Don't have an account yet?
+                        </Typography>
+                        <Link to="/">
+                            <Typography
+                                className="reset-pw-element"
+                                variant="body1"
+                            >
+                                Register!
+                            </Typography>
+                        </Link>
                     </div>
                 )}
                 {this.state.stage === 2 && (
                     <div>
-                        <input
+                        <Input
+                            className="reset-pw-element"
                             onChange={(e) => this.handleChange(e)}
                             type="text"
                             name="code"
                             placeholder="Verification Code"
                         />
-                        <input
+                        <Input
+                            className="reset-pw-element"
                             onChange={(e) => this.handleChange(e)}
                             type="password"
                             name="pw"
                             placeholder="New Password"
                         />
-                        <button onClick={() => this.updatePw()}>
+                        <Button
+                            className="reset-pw-element"
+                            variant="outlined"
+                            onClick={() => this.updatePw()}
+                        >
                             Update password
-                        </button>
+                        </Button>
                     </div>
                 )}
                 {this.state.stage === 3 && (
                     <div>
-                        <h3>Success!</h3>
-                        <p>You can </p> <Link to="/login">log in</Link>
-                        <p> with your new password</p>
+                        <Typography className="reset-pw-element" variant="h5">
+                            Success
+                            <ThumbUpIcon />
+                        </Typography>
+                        <Link to="/login">
+                            <Typography
+                                className="reset-pw-element"
+                                variant="body1"
+                            >
+                                You can log in with your new password
+                            </Typography>
+                        </Link>
                     </div>
                 )}
-            </div>
+            </Paper>
         );
     }
 }

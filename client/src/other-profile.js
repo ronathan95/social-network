@@ -56,7 +56,7 @@ export default class OtherProfile extends Component {
                         <CardMedia
                             component="img"
                             alt="profile picture"
-                            height="400"
+                            height="350"
                             image={this.state.profilePic}
                             title={this.state.first}
                         />

@@ -6,6 +6,8 @@ import {
     unfriend,
 } from "./actions";
 
+import { Typography, Button } from "@material-ui/core";
+
 export default function Friends() {
     const dispatch = useDispatch();
     const requests = useSelector(
@@ -43,32 +45,37 @@ export default function Friends() {
     }
 
     return (
-        <div>
-            <h1>Friends Page</h1>
-            <h3>Friends Requests</h3>
+        <div className="friends">
+            <Typography variant="h6">Friends Requests</Typography>
             {requests &&
                 requests.map((request) => (
-                    <div key={request.id}>
-                        <p>
+                    <div className="friend-or-request" key={request.id}>
+                        <Typography variant="body1">
                             {request.first} {request.last}
-                        </p>
+                        </Typography>
                         <img src={request.profile_pic} />
-                        <button onClick={() => handleAcceptClick(request.id)}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => handleAcceptClick(request.id)}
+                        >
                             {BUTTON_TEXT.ACCPT_REQUEST}
-                        </button>
+                        </Button>
                     </div>
                 ))}
-            <h3>Friends</h3>
+            <Typography variant="h6">Friends</Typography>
             {friends &&
                 friends.map((friend) => (
-                    <div key={friend.id}>
-                        <p>
+                    <div className="friend-or-request" key={friend.id}>
+                        <Typography variant="body1">
                             {friend.first} {friend.last}
-                        </p>
+                        </Typography>
                         <img src={friend.profile_pic} />
-                        <button onClick={() => handleUnfriendClick(friend.id)}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => handleUnfriendClick(friend.id)}
+                        >
                             {BUTTON_TEXT.UNFRIEND}
-                        </button>
+                        </Button>
                     </div>
                 ))}
         </div>

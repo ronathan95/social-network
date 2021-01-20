@@ -20,17 +20,17 @@ export default function FriendButton({ id }) {
             .then(({ data }) => {
                 if (data.requestSent) {
                     if (data.sender) {
-                        console.log("request was sent from this user");
+                        //request was sent from this user
                         setButtonText(BUTTON_TEXT.CNCL_REQUEST);
                     } else {
-                        console.log("request was sent to this user");
+                        //request was sent to this user
                         setButtonText(BUTTON_TEXT.ACCPT_REQUEST);
                     }
                 } else if (data.friends) {
-                    console.log("users are friends");
+                    //users are friends
                     setButtonText(BUTTON_TEXT.UNFRIEND);
                 } else if (!data.friends) {
-                    console.log("users aren't friends, no request");
+                    //users aren't friends, no request
                     setButtonText(BUTTON_TEXT.MAKE_REQUEST);
                 }
             })

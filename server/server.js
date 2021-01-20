@@ -407,6 +407,11 @@ app.post("/delete-account", s3.delete, (req, res) => {
     //     });
 });
 
+app.get("/logout", (req, res) => {
+    req.session.userId = null;
+    res.redirect("/welcome");
+});
+
 app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
