@@ -107,6 +107,7 @@ export default class App extends Component {
                                 last={this.state.last}
                                 profilePic={this.state.profilePic}
                                 bio={this.state.bio}
+                                createdAt={this.state.createdAt}
                                 toggleUploader={() => this.toggleUploader()}
                                 updateBio={(newBio) => this.updateBio(newBio)}
                             />

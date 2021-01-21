@@ -18,6 +18,7 @@ export default function Profile({
     last,
     profilePic,
     bio,
+    createdAt,
     toggleUploader,
     updateBio,
 }) {
